@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!-- Don't forget to set system property
+-DLog4jContextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector
+     to make all loggers asynchronous. -->
+ 
+<Configuration status="WARN" moniterInterval="86400">
+    <!-- 定义常量 -->
+	<properties>
+	    <property name="APP_NAME">rainbow-provider-user</property>
+	    <property name="LOG_FILE_PREFIX">provider-user</property>
+	    <property name="LOG_HOME">${sys:user.home}/logs/${APP_NAME}</property>
+	</properties>
+	<Appenders>
+	  <!-- 全日志文件输出 -->
+	  <!-- Async Loggers will auto-flush in batches, so switch off immediateFlush. -->
+	  <RollingRandomAccessFile name="AllRandomAccessFile" fileName="${LOG_HOME}/${LOG_FILE_PREFIX}_all.log" immediateFlush="false" append="true"
+	      filePattern="${LOG_HOME}/${LOG_FILE_PREFIX}_all-%d{yyyy-MM-dd}-%i.log.gz">
+	    <PatternLayout pattern="%d{yy-MM-dd.HH:mm:ss.SSS} %X{requestId} [%-16t] %-5p %-22c{1} - %m%n" />
+	    <Policies>
+	      <TimeBasedTriggeringPolicy/>
+	      <SizeBasedTriggeringPolicy size="256 MB"/>
+	    </Policies>
+	    <DefaultRolloverStrategy max="100"/>
+	  </RollingRandomAccessFile>
+	  <!-- ERROR日志输出文件 -->
+	  <RollingRandomAccessFile name="ErrorRandomAccessFile" fileName="${LOG_HOME}/${LOG_FILE_PREFIX}_err.log" immediateFlush="false" append="true"
+	      filePattern="${LOG_HOME}/${LOG_FILE_PREFIX}_err-%d{yyyy-MM-dd}-%i.log.gz">
+	    <PatternLayout pattern="%d{yy-MM-dd.HH:mm:ss.SSS} %X{requestId} [%-16t] %-5p %-22c{1} - %m%n" />
+	    <Policies>
+	      <TimeBasedTriggeringPolicy/>
+	      <SizeBasedTriggeringPolicy size="256 MB"/>
+	    </Policies>
+	    <DefaultRolloverStrategy max="100"/>
+	    <Filters>
+	        <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY" />
+	    </Filters>
+	  </RollingRandomAccessFile>
+	  <!-- 访问日志输出文件 -->
+	  <!-- <RollingRandomAccessFile name="AccessLogRandomAccessFile" fileName="${LOG_HOME}/${LOG_FILE_PREFIX}_access.log" immediateFlush="false" append="true"
+	      filePattern="${LOG_HOME}/${LOG_FILE_PREFIX}_access-%d{yyyy-MM-dd}.log.gz">
+	    <PatternLayout pattern="%d{yy-MM-dd.HH:mm:ss.SSS} %X{ServiceId} [%-16t] %-5p %-22c{1} - %m%n" />
+	    <Policies>
+	      <TimeBasedTriggeringPolicy/>
+	      
+	      <SizeBasedTriggeringPolicy size="256 MB"/>
+	      
+	    </Policies>
+	    <Filters>
+	        <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY" />
+	    </Filters>
+	  </RollingRandomAccessFile> -->
+	  <!-- 标准输出 -->
+	  <Console name="Console" target="SYSTEM_OUT">
+	  	<PatternLayout pattern="%d{yy-MM-dd.HH:mm:ss.SSS} %X{requestId} [%-16t] %-5p %-22c{1} - %m%n" />
+	  </Console>
+	</Appenders>
+	<Loggers>
+	    <!-- dubbo相关 -->
+		<AsyncLogger name="com.alibaba.dubbo" level="INFO" includeLocation="true" additivity="false">
+			<AppenderRef ref="AllRandomAccessFile"/>
+			<AppenderRef ref="ErrorRandomAccessFile"/>
+<!-- 			<AppenderRef ref="Console"/> -->
+		</AsyncLogger>
+		<!-- spring相关 -->
+		<AsyncLogger name="org.springframework" level="WARN" includeLocation="true" additivity="false">
+			<AppenderRef ref="AllRandomAccessFile"/>
+			<AppenderRef ref="ErrorRandomAccessFile"/>
+<!-- 			<AppenderRef ref="Console"/> -->
+		</AsyncLogger>
+		<!-- zk相关 -->
+		<AsyncLogger name="org.apache.zookeeper" level="WARN" includeLocation="true" additivity="false">
+			<AppenderRef ref="AllRandomAccessFile"/>
+			<AppenderRef ref="ErrorRandomAccessFile"/>
+<!-- 			<AppenderRef ref="Console"/> -->
+		</AsyncLogger>
+		<!-- 默认日志设置 -->
+		<AsyncRoot level="${rt.log.level}" includeLocation="true">
+			<AppenderRef ref="AllRandomAccessFile"/>
+			<AppenderRef ref="ErrorRandomAccessFile"/>
+ 			<AppenderRef ref="Console"/>
+		</AsyncRoot>
+	</Loggers>
+</Configuration>

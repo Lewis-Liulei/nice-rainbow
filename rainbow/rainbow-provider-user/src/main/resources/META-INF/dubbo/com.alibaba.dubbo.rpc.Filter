@@ -1,0 +1,6 @@
+#contextFilter=com.cgnb.business.ContextFilter
+#paysdkContextFilter=com.cgnb.business.PaysdkContextFilter
+logHelperFilter=rt.lewis.filter.dubbo.ProviderLogHelperFilter
+#commonLogFilter=com.cgnb.business.CommonLogFilter
+#catTransaction=net.dubboclub.catmonitor.CatTransaction
+#appnameAppend=net.dubboclub.catmonitor.AppNameAppendFilter

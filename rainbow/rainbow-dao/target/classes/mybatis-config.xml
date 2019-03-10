@@ -8,7 +8,9 @@
     &lt;!&ndash;<package name="dao"/>&ndash;&gt;
     <mapper resource="classpath:mapper/PersonMapper.xml"/>
 </mappers>-->
-
+    <typeAliases>
+        <typeAlias alias="User" type="rt.lewis.module.user.User"/>
+    </typeAliases>
 
 
 </configuration>

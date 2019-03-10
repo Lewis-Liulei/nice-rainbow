@@ -6,8 +6,13 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
+import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
+import org.apache.ibatis.plugin.Interceptor;
+import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,7 +22,9 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import rt.lewis.filter.RtLog4j2Filter;
 
 import javax.sql.DataSource;
@@ -27,6 +34,7 @@ import java.util.List;
 
 @Configuration
 @ConfigurationProperties(prefix = "spring.datasource")
+@MapperScan("rt.lewis.dao.mapper")
 public class DaoConfiguretion {
 
     private static final Logger logger = LoggerFactory.getLogger(DaoConfiguretion.class);
@@ -272,23 +280,40 @@ public class DaoConfiguretion {
         datasource.setConnectionProperties(connectionProperties);
         return datasource;
     }
+    /**
+     * 分页插件
+     */
+    @Bean(name="paginationInterceptor")
+    public PaginationInterceptor paginationInterceptor() {
+        PaginationInterceptor page = new PaginationInterceptor();
+        page.setDialectType("mysql");
+        return page;
+    }
 
     @Value("${mybatis.mapper-locations}")
-    private Resource[] mapperLocations;
+    private String mapperLocations;
    /* @Value("${mybatis.type-aliases-package}")
     private String typeAliasesPackage;*/
    @Value("${mybatis.configLocation}")
-   private Resource configLocation;
+   private String configLocation;
 
     @Bean(name="sqlSessionFactory")
-    public SqlSessionFactory initSqlSessionFactory(@Qualifier("dataSource") DataSource dataSource) throws Exception {
-        SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
-        sqlSessionFactory.setDataSource(dataSource);
+    public SqlSessionFactory initSqlSessionFactory(@Qualifier("dataSource") DataSource dataSource,
+                                                   @Qualifier("paginationInterceptor") Interceptor paginationInterceptor) throws Exception {
+        MybatisSqlSessionFactoryBean factoryBean = new MybatisSqlSessionFactoryBean();
+
+        factoryBean.setDataSource(dataSource);
         //classpath:/mybatis-config.xml
-        //Resource resource = new ClassPathResource("mybatis-config.xml");
-        sqlSessionFactory.setConfigLocation(configLocation);
-        sqlSessionFactory.setMapperLocations(mapperLocations);
-        return (SqlSessionFactory)sqlSessionFactory.getObject();
+        //Resource resource = new ClassPathResource(configLocation);
+        //factoryBean.setConfigLocation(resource);
+        //Resource ml=new ClassPathResource(mapperLocations);
+        //factoryBean.setMapperLocations(new Resource[]{ml});
+
+        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        factoryBean.setMapperLocations(resolver.getResources(mapperLocations));
+        factoryBean.setConfigLocation(resolver.getResource(configLocation));
+        factoryBean.setPlugins(new Interceptor[]{paginationInterceptor});
+        return (SqlSessionFactory)factoryBean.getObject();
     }
 
     @Bean
@@ -316,6 +341,4 @@ public class DaoConfiguretion {
         filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
         return filterRegistrationBean;
     }
-
-
 }
