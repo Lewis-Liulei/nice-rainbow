@@ -92,6 +92,11 @@
         </dependency>
         <dependency>
             <groupId>rt.lewis</groupId>
+            <artifactId>rainbow-dao-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>rt.lewis</groupId>
             <artifactId>rainbow-api</artifactId>
             <version>1.0.0</version>
         </dependency>
@@ -159,6 +164,7 @@
             <artifactId>disruptor</artifactId>
             <version>3.4.2</version>
         </dependency>
+
     </dependencies>
     </dependencyManagement>
     <profiles>

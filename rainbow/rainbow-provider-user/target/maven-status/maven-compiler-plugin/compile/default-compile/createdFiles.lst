@@ -1,3 +1,3 @@
-rt\lewis\service\impl\UserServiceImpl.class
+rt\lewis\service\UserServiceImpl.class
 rt\lewis\UserApplication.class
-rt\lewis\servicebiz\impl\UserServiceBizImpl.class
+rt\lewis\business\UserServiceBizImpl.class
