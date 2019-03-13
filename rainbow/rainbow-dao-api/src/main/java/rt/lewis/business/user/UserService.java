@@ -14,5 +14,7 @@ public interface UserService {
     public String setRedisKey(String key);
 
     public String getRedisKey(String key);
+
+    public int insertUser(User user);
     
 }

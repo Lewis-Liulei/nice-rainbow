@@ -19,7 +19,7 @@ import java.util.Map;
 public class UserFacade {
     private static final Logger logger = LogManager
             .getLogger(UserFacade.class);
-   /* @Reference
+   /*@Reference
     private UserServiceBiz userServiceBiz;*/
 
     @GetMapping("/hello")
@@ -71,11 +71,11 @@ public class UserFacade {
 
 
 
- /*   @GetMapping("/getAllUser")
+   /* @GetMapping("/getAllUser")
     public List<User> getAllUser(){
         return userServiceBiz.getAllUser();
-    }*/
-/*
+    }
+*//*
     @GetMapping("/getListByPage")
     public List<User> getListByPage(){
         return userServiceBiz.getListByPage();

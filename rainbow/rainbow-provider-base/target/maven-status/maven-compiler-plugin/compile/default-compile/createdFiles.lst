@@ -1,2 +1,4 @@
 rt\lewis\filter\RtLog4j2Filter.class
+rt\lewis\common\config\RedisConfig.class
+rt\lewis\common\config\DaoConfig.class
 rt\lewis\filter\dubbo\ProviderLogHelperFilter.class

@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.apache.ibatis.datasource.DataSourceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,13 +41,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User>
     public List<User> getListByPage(){
         //Page<User> page = new Page<>();
         //page.setSize(2);
-        throw new DataSourceException();
-       /* IPage<User> userIPage= userMapper.selectPage(
+       IPage<User> userIPage= userMapper.selectPage(
                 new Page<User>()
                         .setSize(4)
                         .setDesc("id"),
                 new QueryWrapper<User>());
-        List<User> list=userIPage.getRecords();*/
+        List<User> list=userIPage.getRecords();
+        return list;
     }
 
     @Override
@@ -69,5 +68,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User>
             return template.opsForValue().get(key);
         }
         return null;
+    }
+
+    @Override
+    public int insertUser(User user) {
+        return userMapper.insert(user);
     }
 }

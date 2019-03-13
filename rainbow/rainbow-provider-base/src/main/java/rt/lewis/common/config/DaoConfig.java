@@ -7,15 +7,20 @@ import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
+import org.apache.ibatis.plugin.Interceptor;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import rt.lewis.filter.RtLog4j2Filter;
 
@@ -283,13 +288,17 @@ public class DaoConfig {
         //page.setDialectType("mysql");
         return page;
     }
-
-    /*@Value("${mybatis.mapper-locations}")
+/*
+    @Value("${mybatis-plus.mapper-locations}")
     private String mapperLocations;
-   *//* @Value("${mybatis.type-aliases-package}")
-    private String typeAliasesPackage;*//*
-   @Value("${mybatis.configLocation}")
-   private String configLocation;
+    @Value("${mybatis-plus.type-aliases-package}")
+    private String typeAliasesPackage;
+    @Value("${mybatis-plus.config-location}")
+    private String configLocation;
+    @Value("mybatis-plus.type-enums-package")
+    private String typeEnumsPackage;
+    @Value("mybatis-plus.configuration.default-enum-type-handler")
+    private String defaultEnumTypeHandler;
 
     @Bean(name="sqlSessionFactory")
     public SqlSessionFactory initSqlSessionFactory(@Qualifier("dataSource") DataSource dataSource,
@@ -307,6 +316,8 @@ public class DaoConfig {
         factoryBean.setMapperLocations(resolver.getResources(mapperLocations));
         factoryBean.setConfigLocation(resolver.getResource(configLocation));
         factoryBean.setPlugins(new Interceptor[]{paginationInterceptor});
+        factoryBean.setTypeEnumsPackage(typeEnumsPackage);
+        factoryBean.setT
         return (SqlSessionFactory)factoryBean.getObject();
     }*/
 

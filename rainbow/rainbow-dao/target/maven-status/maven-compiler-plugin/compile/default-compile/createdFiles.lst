@@ -1,1 +1,2 @@
 rt\lewis\dao\mapper\UserMapper.class
+rt\lewis\dao\typehandler\DateTypeHandler.class

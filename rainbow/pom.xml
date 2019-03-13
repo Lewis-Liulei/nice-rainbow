@@ -16,6 +16,7 @@
         <module>rainbow-provider-base</module>
         <module>rainbow-api</module>
         <module>rainbow-common</module>
+        <module>rainbow-dao-api</module>
     </modules>
     <groupId>rt.lewis</groupId>
     <artifactId>rainbow</artifactId>
