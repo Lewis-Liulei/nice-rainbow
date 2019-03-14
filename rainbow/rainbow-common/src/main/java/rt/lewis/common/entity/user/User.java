@@ -1,5 +1,6 @@
 package rt.lewis.common.entity.user;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import rt.lewis.common.entity.user.enums.StatusEnum;
@@ -20,7 +21,9 @@ public class User implements Serializable {
     @JsonSerialize(using = DateJsonSerializer.class)
     @JsonDeserialize(using = DateJsonDeserializer.class)
     private Date ctime;
+    //@JsonFormat(pattern = "yyyy-MM-dd")
     private Date cdate;
+
     private Date cdt;
 
 
