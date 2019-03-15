@@ -12,6 +12,9 @@ import rt.lewis.business.user.UserService;
 import rt.lewis.common.entity.user.User;
 import rt.lewis.common.entity.user.enums.StatusEnum;
 
+import javax.annotation.Resource;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -21,10 +24,10 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class AppTest {
-    @Autowired
+   @Resource
    private UserService userService;
 
-    @Test
+   /* @Test
     public void getUserById()
     {
         //assertTrue( true );
@@ -32,8 +35,8 @@ public class AppTest {
         Assert.assertEquals("zhangsan",user.getName());
         Assert.assertTrue(StatusEnum.失败==user.getStatus());
         System.out.println("状态===========:  "+user.getStatus());
-    }
-    @Test
+    }*/
+    /*@Test
     public void insertUser(){
 
         User user = new User();
@@ -41,16 +44,30 @@ public class AppTest {
         user.setName("lisi223");
         user.setAddress("sabsdfsq");
         user.setStatus(StatusEnum.成功);
-        user.setCtime(new Date());
-        user.setCdate(new Date());
-        user.setCdt(new Date());
+        //user.setCtime(new Date());
+        //user.setCdate(new Date());
+        //user.setCdt(new Date());
         System.out.println(userService.insertUser(user));
 
-    }
+    }*/
 
     @Test
     public void getListByPage(){
         System.out.println(userService.getListByPage());
+
+    }
+
+    @Test
+    public void insertnewUser(){
+        User user= new User();
+            user.setId("liset12")
+                .setName("zhangsa112")
+                .setAddress("sfdsf")
+                .setCtime(LocalDateTime.now())
+                    .setCdate(LocalDate.now())
+                    .setCdt(LocalDateTime.now());
+
+        System.out.println(userService.insertUser(user));
 
     }
 }

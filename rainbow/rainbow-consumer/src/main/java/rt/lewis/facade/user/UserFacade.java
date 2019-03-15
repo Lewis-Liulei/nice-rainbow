@@ -50,24 +50,24 @@ public class UserFacade {
 
 
    }
-
+/*
     @GetMapping("/retest")
     public Map<String ,Object> retmap(){
 
         Map<String,Object> map = new HashMap<>();
         User user = new User();
-        /*private String id;
+        *//*private String id;
         private String name;
         private String address;
-        private Integer status;*/
-        /*user.setId("22");
+        private Integer status;*//*
+     *//*user.setId("22");
         user.setName("sdfdfds");
         user.setAddress("sdfdfds");
-        user.setStatus(3);*/
+        user.setStatus(3);*//*
         map.put("context",user);
         return  map;
 
-    }
+    }*/
 
 
 

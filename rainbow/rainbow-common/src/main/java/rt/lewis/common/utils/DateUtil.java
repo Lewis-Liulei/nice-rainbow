@@ -8,7 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
+//弃用！！！之后用java8的LocalDateTime
 public class DateUtil {
 
     private static final Logger logger= LogManager.getLogger(DateUtil.class);

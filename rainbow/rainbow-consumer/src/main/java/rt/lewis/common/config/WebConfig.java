@@ -1,5 +1,7 @@
 package rt.lewis.common.config;
 
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -10,10 +12,13 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import rt.lewis.common.jsts.DateJsonDeserializer;
 import rt.lewis.common.utils.DateUtil;
 import rt.lewis.ext.format.DateFormatter;
+import rt.lewis.common.jsts.DateJsonSerializer;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Configuration
@@ -38,11 +43,13 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder()
+        Jackson2ObjectMapperBuilder builder1 = new Jackson2ObjectMapperBuilder()
                 .indentOutput(true)
-                .dateFormat(new SimpleDateFormat(DateUtil.DATETIME_FORMAT))
+                .deserializerByType(LocalDateTime.class,new DateJsonDeserializer())
+                .serializerByType(LocalDateTime.class,new DateJsonSerializer())
+                //.dateFormat(new SimpleDateFormat(DateUtil.DATETIME_FORMAT))
                 .modulesToInstall(new ParameterNamesModule());
-        converters.add(new MappingJackson2HttpMessageConverter(builder.build()));
+        converters.add(new MappingJackson2HttpMessageConverter(builder1.build()));
     }
 
     @Override

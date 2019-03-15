@@ -5,9 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import rt.lewis.common.filter.CORSFilter;
 
-@Configuration
+//@Configuration
 public class FilterConfig {
-    @Bean
+    //@Bean
     public FilterRegistrationBean filterRegistrationBean(){
         FilterRegistrationBean registration = new FilterRegistrationBean();
         registration.addUrlPatterns("/**");
