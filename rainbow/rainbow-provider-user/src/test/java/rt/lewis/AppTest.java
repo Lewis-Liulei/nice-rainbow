@@ -60,7 +60,7 @@ public class AppTest {
     @Test
     public void insertnewUser(){
         User user= new User();
-            user.setId("liset12")
+            user//.setId("liset12")
                 .setName("zhangsa112")
                 .setAddress("sfdsf")
                 .setCtime(LocalDateTime.now())
@@ -70,4 +70,19 @@ public class AppTest {
         System.out.println(userService.insertUser(user));
 
     }
+
+    @Test
+    public void insertUser01(){
+        User user= new User();
+        user.setName("zhangsa112")
+            .setAddress("sfdsf")
+            .setStatus(StatusEnum.成功)
+            .setCtime(LocalDateTime.now())
+            .setCdate(LocalDate.now())
+            .setCdt(LocalDateTime.now());
+
+        System.out.println(userService.insertUser(user));
+
+    }
+
 }
